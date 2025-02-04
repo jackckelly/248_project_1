@@ -277,14 +277,16 @@ You must...
 ==Daytime== 
 # CLEAR
 <link rel="stylesheet" type="text/css" href="styleDay.css"/>
-You gasp awake to a new day. The fog overcasts the trees outside your home. 
+You gasp awake to a new day. The fog overcasts the trees outside your home and you look at your clock to notice it's already noon!  
 What would you like to do? 
 +[Talk to housemates] 
 You get out of bed and begin your regular routine. Get dressed, brush your teeth, and set off to the hallway. -> convoStarter
 +[Go get supplies for exorcism] 
 You get out of bed and begin your regular routine. Get dressed, brush your teeth, and head out. -> Shopping 
 
-==Shopping== 
+==Shopping==
+# CLEAR
+<link rel="stylesheet" type="text/css" href="styleDay.css"/>
 {Shopping < 2: You head out to get your supplies.}
 {holyWater: holy water in hand... }
 {medicine: medicine in the other...}
@@ -303,9 +305,10 @@ Making sure no one is looking, you steal just enough for the exorcise.
 You search for a while but eventually find Darcie's medicine. 
 <- Shopping
 
-==convoStarter== 
+==convoStarter==
 # CLEAR
-{Shopping: You finally return to the house.}
+<link rel="stylesheet" type="text/css" href="styleDay.css"/>
+{Shopping: You finally return to the house as the sun begins to set.}
 Who would you like to speak to? 
 *{not NotHomeVince && not WentShopping}[Vince] -> VinceConversation
 +{AmyConversation < 5}[Amy] -> AmyConversation 
@@ -316,6 +319,8 @@ Who would you like to speak to?
 +{WentShopping && AmyPostShopping} [Wait to begin exorcism] -> FinalShowdown
 
 ==VinceConversation== 
+# CLEAR 
+<link rel="stylesheet" type="text/css" href="styleDay.css"/>
 You walk to the kitchen and see Vince, greeting him. 
 {VinceMad: 
 <- VinceMadConversation
@@ -327,6 +332,7 @@ You walk to the kitchen and see Vince, greeting him.
 
 
 ==additionalQuestions==
+<link rel="stylesheet" type="text/css" href="styleDay.css"/>
 *["Is anyone else home?"] -> elseHome
 *{not sawSomething} ["I saw something last night"] -> sawSomething 
 Vince: Hm? 
@@ -334,6 +340,7 @@ Vince: Hm?
 +["I'll catch you later"] -> VinceGoodbye 
 
 == VinceMadConversation==
+<link rel="stylesheet" type="text/css" href="styleDay.css"/>
 Vince: "What do you want from me?" 
 -> confrontVince 
 =confrontVince
@@ -368,6 +375,7 @@ Vince: Of course, yeah, it's your secret after all. Apology accepted!
 {sawSomething: Vince: So, what did you see?} 
 
 ==elseHome ==
+<link rel="stylesheet" type="text/css" href="styleDay.css"/>
 {VinceMad: Vince: Yeah. Darcie's sick. Johnny's being an ass. Amy's...somewhere, I dont know.} 
 {not VinceMad: Vince: Yeah! Uhhh Amy is...somewhere I'm not sure where. Darcie is in her room, I think she's sick or something? And Johnny, I don't know. As long as he stays away I don't care where he went.} 
 <- PeopleHome 
@@ -400,6 +408,7 @@ Vince: Of course, yeah, it's your secret after all. Apology accepted!
 
 
 ==sawSomething==
+<link rel="stylesheet" type="text/css" href="styleDay.css"/>
 {VinceMad: 
 -> VinceMadConversation.dontApologize
 }
@@ -415,6 +424,7 @@ Vince: ...ominous but alright. -> additionalQuestions
 *["I think someone's posessed by a wrathful spirit."] -> posessed 
 
 ==posessed== 
+<link rel="stylesheet" type="text/css" href="styleDay.css"/>
 Vince: POSESSED?! 
 You hush him down 
 Vince: Possessed?! The hell you mean?! 
@@ -450,6 +460,8 @@ Vince: Anything else you wanna chat about?
 
 
 ==VinceNeutralConvo==
+# CLEAR 
+<link rel="stylesheet" type="text/css" href="styleDay.css"/>
 Vince: Oh hey! What's up? 
 <- additionalQuestions
 *["Something's going on"] 
@@ -548,6 +560,8 @@ She shuts the door.
 -> convoStarter
 
 ==JohnnyConversation==
+# CLEAR 
+<link rel="stylesheet" type="text/css" href="styleDay.css"/>
 You wander around for a while before finding Johnny in the garage. 
 Johnny: "Hello." 
 {AmyConversation.danger: 
@@ -560,7 +574,8 @@ Johnny: "Hello."
 *{elseHome.JohnnyExplotion or DarcieConversation.ExplosionConvo}["What's going on between you and Vince, man?"] -> MediumTalk.VincePissOff
 
 ==MediumTalk==
-Johnny: So...you're a medium? 
+<link rel="stylesheet" type="text/css" href="styleDay.css"/>
+Johnny: So...you're a "medium"? 
 *["How did you know?"] 
 Johnny pulls out his phone and shows a text message thread between him and Amy. 
 Johnny: You feeling ok man? Sounds like you had a bit of a freakout. 
@@ -618,6 +633,8 @@ Johnny: You should leave.
 
 
 ==DarcieConversation==
+# CLEAR
+<link rel="stylesheet" type="text/css" href="styleDay.css"/>
 You knock on the door to her bedroom. 
 {DarcieConversation < 2: Darcie: WHAT?! }
 {InvestigateLivingRoom.DarcieDoor:
@@ -739,6 +756,8 @@ Darcie: Then the hell are you doin here?! Go out and find it!! If you need any h
 *[You leave the room] -> convoStarter
 
 ==DarciePostShopping==
+# CLEAR 
+<link rel="stylesheet" type="text/css" href="styleDayPostShopping.css"/>
 You walk up and knock on the door. 
 {DarcieConversation.DarcieMad && not DarcieConversation.confess: ...No reply.} 
 {DarcieConversation.confess: Darcie: Come in!} 
@@ -758,11 +777,13 @@ Darcie: Alright, take care of yourself. -> convoStarter
 
 
 ==ConfessChat==
+<link rel="stylesheet" type="text/css" href="styleDayPostShopping.css"/>
 Darcie: Did you exorcise the bastard? 
 * ["Not yet"] 
 Darcie: Well whatcha waiting for?! Go! -> DarciePostShopping.DarcieChat
 
 ==MedicineChat==
+<link rel="stylesheet" type="text/css" href="styleDayPostShopping.css"/>
 *{Shopping.medicine}["You got anything to help with the exorcism?"] -> medicineDeal 
 *{not Shopping.medicine}["Sorry, I forgot your medicine"] -> angryAboutMedicine
 
@@ -780,6 +801,7 @@ Darcie: Goddamn it!! Gah, I guess that's fine.
 <- DarciePostShopping.DarcieChat 
 
 ==AmyPostShopping==
+<link rel="stylesheet" type="text/css" href="styleDayPostShopping.css"/>
 You knock on her bedroom door.
 {AmyConversation < 5: Despite the obvious movement inside, no one answers. -> convoStarter}
 {not AmyConversation: Amy: Hey, what's up?} 
