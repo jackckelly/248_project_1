@@ -285,14 +285,35 @@ You get out of bed and begin your regular routine. Get dressed, brush your teeth
 You get out of bed and begin your regular routine. Get dressed, brush your teeth, and head out. -> Shopping 
 
 ==Shopping== 
--> END 
+{Shopping < 2: You head out to get your supplies.}
+{holyWater: holy water in hand... }
+{medicine: medicine in the other...}
+{Shopping > 2: you head to your next location.} 
++(HolyWater)[Get holy water.] -> holyWater
++{DarcieConversation.askForMedicine}(DarcieMedicine)[Get Darcie's Medicine] -> medicine
++[Go home] 
+
+=holyWater
+You walk into your local church with an empty waterbottle and sneak to the stoup. 
+Making sure no one is looking, you steal just enough for the exorcise. 
+<- Shopping
+
+=medicine 
+{holyWater: You hide the bottle of holy water in your pocket and walk to your local supermarket} 
+You search for a while but eventually find Darcie's medicine. 
+<- Shopping
 
 ==convoStarter== 
+# CLEAR
+{Shopping: You finally get home.}
 Who would you like to speak to? 
-*{not NotHomeVince}[Vince] -> VinceConversation
+*{not NotHomeVince && not WentShopping}[Vince] -> VinceConversation
 +{AmyConversation < 5}[Amy] -> AmyConversation 
-+{not NotHomeJohnny}[Johnny] -> JohnnyConversation
-+[Darcie] -> DarcieConversation 
+*{AmyConversation < 5 && not WentShopping} [Amy] -> AmyPostShopping
++{not NotHomeJohnny && not WentShopping}[Johnny] -> JohnnyConversation
++{not WentShopping}[Darcie] -> DarcieConversation 
++{WentShopping}[Darcie] -> DarciePostShopping
++{WentShopping && AmyPostShopping} [Wait to begin exorcism] -> FinalShowdown
 
 ==VinceConversation== 
 You walk to the kitchen and see Vince, greeting him. 
@@ -625,6 +646,7 @@ You quietly enter
 <- ExplosionConvo
 }
 *["I need to tell you something."] -> tellDarcie 
+*["I think I'm going to head out."] -> leaveDarcie
 
 = ExplosionConvo 
 Darcie: Well since you're here, did those two jackasses stop fighting? 
@@ -660,11 +682,16 @@ Darcie: "Tell me what?"
 *["Nevermind."] -> dodge 
 
 = confess 
+~ KnowledgeStateDarcie = Knows
 {not DarcieMad: You tell her about your powers.} 
 Darcie: ....what? 
 *[You don't believe me?] 
 Darcie: I....KNEW IT. THERE WAS ALWAYS SOMETHIN' OFF HERE. 
-**["What?!"]
+**["What?!"] 
+Darcie: Oh come on...the random frames falling. The plates falling. The whispers. How does no one know this place is haunted?! 
+***["So you're not posessed?"] -> DarciePosessed
+***(unknowing)["I'm glad we're on the same page."] 
+Darcie: Yeah. So, why tell this now? -> DarciePosessed
 = dodge
 {DarcieMad: TELL ME WHAT?! YA ALREADY CAME INTO MY ROOM SPIT IT OUT.} 
 {not DarcieMad: Ya alright? Ya look like ya seen a ghost.} 
@@ -672,10 +699,89 @@ Darcie: I....KNEW IT. THERE WAS ALWAYS SOMETHIN' OFF HERE.
 *{DarcieMad} ["I'm a spirit medium"] -> confess 
 *["I said nevermind."] -> enterRoom
 
+= DarciePosessed
+{unknowing: Darcie: Is something wrong?!} 
+{not unknowing: Darcie: POSESSED?! SOMEONE'S POSESSED?!} 
+*{not unknowing}["Yes"] 
+*{unknowing}["Yeah, someone's posessed"] 
+{unknowing: Darcie: POSESSED?!} 
+Darcie: Well DAMN. Then who is?! 
+**["I'm not sure who it is"] -> DarcieHelp
+**["I'm going to be preforming an exorcism"]  -> DarcieHelp
+**["I think I know who it is"] -> DarcieQuestionsWho 
+
+=DarcieQuestionsWho
+Darcie: Who?!
+*["Well I thought it was you."]
+    -> accuse("You")
+*[Johnny] 
+    -> accuse("Johnny") 
+*[Amy] 
+    -> accuse("Amy") 
+*[Vince] 
+    -> accuse("Vince") 
+    
+=accuse(name)
+{name == "You": Darcie: Me?! Oh well...yeah I did randomly fall sick...and...ok. Understandable misunderstanding.}
+
+{name == "Johnny": Darcie: Oh yeah...could definately be. He's been actin' all weird.} 
+{name == "Amy": Darcie: I mean.....maybe???? She's been kinda locked in her room, but that's bout it.} 
+{name == "Vince": Darcie: Vince? Yeah, definately could be. He was also pretty rattled up about this mornin' too.} 
+
+-> DarcieHelp
+
+= DarcieHelp
+Darcie: Then the hell are you doin here?! Go out and find it!! If you need any help, let me know. Though...I'm kinda bedridden right now. 
+*["Thanks."] -> leaveDarcie
 =leaveDarcie
+{DarcieMad and not angryTalk: Darcie: Ok. Bye.} 
 *[You leave the room] -> convoStarter
 
+==DarciePostShopping==
+You walk up and knock on the door. 
+{DarcieConversation.DarcieMad && not DarcieConversation.confess: ...No reply.} 
+{DarcieConversation.confess: Darcie: Come in!} 
+*{DarcieConversation.DarcieMad && not DarcieConversation.confess} [You walk away] -> convoStarter
+*{DarcieConversation.confess} [Go in] -> DarcieChat
+
+=DarcieChat 
+{DarcieChat < 2: Darcie: Hey.}
+{ DarcieConversation.confess: 
+<- ConfessChat
+}
+{DarcieConversation.askForMedicine: 
+<- MedicineChat
+}
+*["I think I'm going to go."] 
+Darcie: Alright, take care of yourself. -> convoStarter
 
 
+==ConfessChat==
+Darcie: Did you exorcise the bastard? 
+* ["Not yet"] 
+Darcie: Well whatcha waiting for?! Go! -> DarciePostShopping.DarcieChat
+
+==MedicineChat==
+*{Shopping.medicine}["You got anything to help with the exorcism?"] -> medicineDeal 
+*{not Shopping.medicine}["Sorry, I forgot your medicine"] -> angryAboutMedicine
+
+= medicineDeal
+Darcie: Depends, did you get my medicine? 
+*[Of course.] 
+
+Darcie: Thanks. Listen, I always keep a bundle of sage in my bathroom. It's mainly to make it smell nice, but I heard it can ward off bad shit. Go ahead and take it. 
+
+**(Sage)[Take Sage.] 
+<-DarciePostShopping.DarcieChat 
+
+=angryAboutMedicine
+Darcie: Goddamn it!! Gah, I guess that's fine. 
+<- DarciePostShopping.DarcieChat 
+
+==AmyPostShopping==
+-> END 
+
+==FinalShowdown== 
+-> END
 
 
