@@ -305,7 +305,7 @@ You search for a while but eventually find Darcie's medicine.
 
 ==convoStarter== 
 # CLEAR
-{Shopping: You finally get home.}
+{Shopping: You finally return to the house.}
 Who would you like to speak to? 
 *{not NotHomeVince && not WentShopping}[Vince] -> VinceConversation
 +{AmyConversation < 5}[Amy] -> AmyConversation 
@@ -427,7 +427,7 @@ Vince: Well make sure you get the right person tonight, or else that ghost is go
 Vince: Who?! 
 *[You]
     -> accuse("You")
-*[Johnny] 
+*(accuseJohnny)[Johnny] 
     -> accuse("Johnny") 
 *[Amy] 
     -> accuse("Amy") 
@@ -476,9 +476,10 @@ You watch Vince pack the rest of his backpack and head out.
 +[Nevermind, sorry for bothering you.] -> WalkAway 
 
 =talkToAmy 
+{AmyPostShopping: Amy: Uh...sure}
 {talkToAmy < 2: Amy: Sure...come in. Is something wrong?} 
-{talkToAmy < 3: Well, I'm kinda running short on time, but I'm glad to chat a bit more.} 
-{talkToAmy > 3: 
+{talkToAmy < 3: Amy: Well, I'm kinda running short on time, but I'm glad to chat a bit more.} 
+{talkToAmy > 3 and not AmyPostShopping: 
 -> AmyGoodbye
 }
 *{elseHome.JohnnyExplotion} ["Do you know what happened between Johnny and Vince?"] -> AmyExplnationJohnny 
@@ -556,7 +557,7 @@ Johnny: "Hello."
 
 =generalQuestions
 *["Are you feeling ok?"] -> MediumTalk.fine
-*["What's going on between you and Vince, man?"] -> MediumTalk.VincePissOff
+*{elseHome.JohnnyExplotion or DarcieConversation.ExplosionConvo}["What's going on between you and Vince, man?"] -> MediumTalk.VincePissOff
 
 ==MediumTalk==
 Johnny: So...you're a medium? 
@@ -779,7 +780,55 @@ Darcie: Goddamn it!! Gah, I guess that's fine.
 <- DarciePostShopping.DarcieChat 
 
 ==AmyPostShopping==
--> END 
+You knock on her bedroom door.
+{AmyConversation < 5: Despite the obvious movement inside, no one answers. -> convoStarter}
+{not AmyConversation: Amy: Hey, what's up?} 
+{AmyConversation.medium: Amy: Oh...hey.} 
+
+=AmyPostShoppingConvos
+
+*{not AmyConversation}["Can I talk to you for a minute?"] <- AmyConversation.talkToAmy 
+*{AmyConversation.medium}["I'm sorry for the medium talk."] -> mediumTalk
+*["Have you seen Johnny and Vince anywhere?"] -> seenGuys
+*["Gotta go"] -> goodByeAmyPostShopping
+
+=seenGuys 
+Amy: I think Vince went out with a couple friends...
+*["And Johnny?"] 
+Amy: Not sure...maybe he went on a walk or something. 
+-> AmyPostShoppingConvos
+
+=mediumTalk
+Amy: It's fine... 
+*["You seem kind of shaken up"] -> shakenUp
+*["Ok"] -> AmyPostShoppingConvos
+
+= shakenUp
+Amy: Well yeah. Between Johnny being all angry and now you telling me this...I don't know. 
+*["I hope tomorrow is better."] -> tomorrow 
+*{MediumTalk && posessed.accuseJohnny}["Please don't tell Johnny."] -> didSheTell 
+
+= didSheTell
+{AmyConversation.danger && not tomorrow: Amy: I'm sorry, I already did.} 
+{AmyConversation.danger && tomorrow: Amy: You're freaking me out...}
+{not AmyConversation.danger: Amy: Ok...if it makes you more comfortable I won't.} 
+*{AmyConversation.danger && not tomorrow}["Ok. Thanks for telling me."] -> AmyPostShoppingConvos
+*{not AmyConversation.danger && not tomorrow}["Thank you so much."] -> AmyPostShoppingConvos
+*(LeaveEarly){AmyConversation.danger && tomorrow} ["I think I'll just leave."] -> goodByeAmyPostShopping
+*(BackOff){AmyConversation.danger && tomorrow} ["I'm sorry, I'll back off"] -> AmyPostShoppingConvos
+
+{LeaveEarly or BackOff: 
+~ KnowledgeStateJohnny = Knows
+}
+
+= tomorrow 
+Amy: Yeah...me too. I'll try to talk to Johnny tonight 
+*["Please don't"] -> didSheTell
+*["Ok."] -> AmyPostShoppingConvos
+
+=goodByeAmyPostShopping
+Amy: Bye. 
+*[You leave her room.] -> convoStarter
 
 ==FinalShowdown== 
 -> END
