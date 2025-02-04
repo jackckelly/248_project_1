@@ -10,7 +10,7 @@ VAR NotHomeJohnny = false
 
 -> begin
 ==begin==
-Wah! A change! Your heart pounds out of your chest, a decision that can make or break your fate in this household. 
+Your heart pounds out of your chest, a decision that can make or break your fate in this household. 
 *[It all leads down to this.] 
 
 You glare at the red 6 card in front of you, switching your glare between it and your housemate with one card. 
@@ -470,8 +470,8 @@ Amy: What do you mean?
 *["He seems to not be doing well."] 
 {AmyExplnationJohnny: Amy: I mean...ok fine we did have a slight disagreement last night but not anything too serious. Why? Is he ok?}
 
-**["No not really"] -> 
-**["He just seems upset"] 
+**["No not really"] -> tellHer
+**["He just seems upset"] -> AmyExplnationJohnny
 =AmyExplnationJohnny
 {not JohnnyTalkAmy: Amy: Oh...yeah. I'm not sure why that happened...but he's been in a really bad mood today.}
 {JohnnyTalkAmy: Amy: Yeah...maybe he's just outlashing at everyone? I don't know...doesn't seem very like him.} 
@@ -596,7 +596,86 @@ Johnny: You should leave.
 
 
 ==DarcieConversation==
--> END
+You knock on the door to her bedroom. 
+{DarcieConversation < 2: Darcie: WHAT?! }
+{InvestigateLivingRoom.DarcieDoor:
+<- CommentAboutLastNight
+}
+
+*["Can I come in?"] -> enterRoom
+
+=CommentAboutLastNight
+{CommentAboutLastNight<2: Darcie: I SWEAR. IF ITS YOU I'M GONNA LOSE IT.} 
+*["I'm sorry for waking you up last night"] 
+Darcie: what do you want?! -> DarcieConversation
+*(DarcieMad)["It's me"] 
+Darcie: oh C'MON. -> DarcieConversation
+
+= enterRoom
+You quietly enter 
+{not DarcieMad and enterRoom < 2: Darcie: Yeah sure, barge in I suppose.} 
+{DarcieMad and enterRoom < 2: Darcie:First you wake me up in the middle of the night, now you barge into my room.} 
+
+{DarcieMad && dodge: Darcie: Then get the hell out!! -> leaveDarcie}
+
+
+*{DarcieMad} ["It wasn't the middle of the night, it was 10pm] -> angryTalk
+*["How long have you been sick?"] -> sick
+{not DarcieMad or angryTalk:
+<- ExplosionConvo
+}
+*["I need to tell you something."] -> tellDarcie 
+
+= ExplosionConvo 
+Darcie: Well since you're here, did those two jackasses stop fighting? 
+*{elseHome.JohnnyExplotion or AmyConversation.JohnnyTalkAmy}["So you heard."] 
+Darcie: Oh yeah, it was a whole screamin' match right here. First Johnny screamed, then Vince- well I guess he just sort of raised his voice. But yeah.<-CommentAboutLastNight
+*{not elseHome.JohnnyExplotion or not AmyConversation.JohnnyTalkAmy}["What?"] 
+Darcie: Oh yeah, I'm surprised you didn't hear it. It was a whole screamin' match right here. First Johnny screamed, then Vince- well I guess he just sort of raised his voice. But yeah.<-CommentAboutLastNight
+
+=angryTalk
+Darcie: God, you can't let me sleep, can you? 
+*["I'm sorry."]
+Darcie: Fine. Whatever. 
+-> enterRoom
+
+=sick 
+Darcie: Since this mornin'. 
+*["Does it feel like a normal cold or...?"] -> lashOut
+*["Do you need any medicine?"] -> askForMedicine 
+
+= lashOut
+Darcie: Yes it feels like a normal col- THE HELL ARE YOU ON ABOUT? I'M JUST SICK. 
+{KnowledgeStateAmy == Knows: Darcie: Amy already texted me, goin on about how you've been actin' weird. Now I'ont know bout what, but I'm not in the mood.} -> enterRoom
+
+=askForMedicine
+Darcie: ... 
+*["..."] 
+Darcie: I mean if you're goin' out I would appreciate some. 
+**["I'll get some then."]-> enterRoom
+
+=tellDarcie 
+Darcie: "Tell me what?" 
+*["I'm a spirit medium."] -> confess 
+*["Nevermind."] -> dodge 
+
+= confess 
+{not DarcieMad: You tell her about your powers.} 
+Darcie: ....what? 
+*[You don't believe me?] 
+Darcie: I....KNEW IT. THERE WAS ALWAYS SOMETHIN' OFF HERE. 
+**["What?!"]
+= dodge
+{DarcieMad: TELL ME WHAT?! YA ALREADY CAME INTO MY ROOM SPIT IT OUT.} 
+{not DarcieMad: Ya alright? Ya look like ya seen a ghost.} 
+*{not DarcieMad}["Funny you should say that...] -> confess 
+*{DarcieMad} ["I'm a spirit medium"] -> confess 
+*["I said nevermind."] -> enterRoom
+
+=leaveDarcie
+*[You leave the room] -> convoStarter
+
+
 
 
 
