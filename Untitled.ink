@@ -1,11 +1,12 @@
-LIST VinceEmotional = normal, mad 
-LIST Knowledge = NoKnows, knows 
+LIST Knowledge = NoKnows, Knows 
 VAR KnowledgeStateVince = (NoKnows)
 VAR KnowledgeStateJohnny = (NoKnows)
 VAR KnowledgeStateAmy = (NoKnows)
 VAR KnowledgeStateDarcie = (NoKnows)
-
-~ VinceEmotional = normal 
+VAR VinceMad = false
+VAR WentShopping = false
+VAR NotHomeVince = false 
+VAR NotHomeJohnny = false 
 
 -> begin
 ==begin==
@@ -81,9 +82,11 @@ Johnny: You sure it wasn't a ghoOoOoOOoOst?
 Vince: C'mon that's not funny.
 Johnny: Oh lighten up! 
 *(notReal)["We all know ghosts aren't real"] 
-Johnny: See! You get it now. This house always cracks and does weird stuff. -> goingToBed 
+Johnny: See! You get it now. This house always cracks and does weird stuff. 
+-> goingToBed 
 *(Follow)["I'd prefer if we don't make ghost jokes"] 
-Johnny: Gah, I know you're new but c'mon. After the first couple weeks you got'ta know now that the house makes all kinda weird noises. -> goingToBed
+Johnny: Gah, I know you're new but c'mon. After the first couple weeks you got'ta know now that the house makes all kinda weird noises. 
+-> goingToBed
 
 =goingToBed
 Vince: You know what, I'm pretty tired I think I'm going to bed. 
@@ -99,7 +102,7 @@ Johnny begins to pack up the Uno cards.
 
 ==InvestigateLivingRoom==
 # CLEAR
-{pictureFrame: You look around to see what could've made that noise.}
+{not pictureFrame: You look around to see what could've made that noise.}
 * [Check picture frames] -> pictureFrame
 * [Knock on Darcie's door] -> DarcieDoor
 * [Go back to table] ->->
@@ -124,11 +127,11 @@ Darcie: What?!
 *["Did you fall?"] 
 Darcie: No I didn't fall. I was just sleeping, you know I have early shift tomorrow. Keep it down, will ya? 
 She slams the door in your face 
--> InvestigateLivingRoom
+**["Jeez, sorry"]-> InvestigateLivingRoom
 *["Are you ok?"] 
 Darcie: I was until you knocked. You know I have an early shift tomorrow. Yall keep it down, will ya? 
 she slams the door in your face. 
--> InvestigateLivingRoom
+**["Jeez, sorry"]-> InvestigateLivingRoom
 
 ==VinceChat== 
 #CLEAR
@@ -163,7 +166,7 @@ Vince: So, what did you actually see?
 ->ActuallySee
 
 **[Remain quiet]
-~ VinceEmotional = mad
+~ VinceMad = true 
 Vince: You know what? Good night. 
 Vince enters his room. 
 ->VinceChat
@@ -197,7 +200,23 @@ Vince: Of course she was, there isn't a day where Darcie doesn't complain about 
 ==concernTalk==
 Vince: Yikes. That's really concerning. Listen, you're the medium and you know more than me. Why don't you just tell them? 
 
-*["I don't want to look weird"] 
+*["I don't want to look weird"] -> lookWeird
+
+*["We're not in danger"]-> danger 
+*["I don't want them to freak out."] 
+Vince: You really think they'd freak out? 
+**["Why do you think the rent is so low?"] 
+Vince: I don't follow. 
+***["Everyone flees screaming before finishing their lease"] 
+Vince: That's cause not everyone has a cool medium friend who can keep an eye on whatever casper the friendly ghost there is here. 
+****["Fair point."]
+-> goodNightVince
+
+=danger 
+Vince: Alright, I'll take your word for it, you're the medium after all. 
+-> goodNightVince
+
+=lookWeird
 Vince: You won't look weird! Look, I've known you for 3 years now and I don't think you're weird 
 
 **["And I've only been here for a couple weeks"] 
@@ -205,18 +224,6 @@ Vince: You won't look weird! Look, I've known you for 3 years now and I don't th
 Vince: ...fair point. But hey! Whatever you choose, I got your back, alright? 
 
 ***["Alright."]
--> goodNightVince
-
-*(danger)["We're not in danger"] 
-Vince: Alright, I'll take your word for it, you're the medium after all. 
--> goodNightVince
-*["I don't want them to freak out."] 
-Vince: You really think they'd freak out? 
-**["Why do you think the rent is so low?"] 
-Vince: I don't follow. 
-***["Everyone flees screaming before finishing their lease"] 
-Vince: That's cause not everyone has a cool medium friend who can keep an eye on whatever casper the friendly ghost there is here. 
-****["Fair point.]
 -> goodNightVince
 
 = goodNightVince
@@ -270,7 +277,326 @@ You must...
 ==Daytime== 
 # CLEAR
 <link rel="stylesheet" type="text/css" href="styleDay.css"/>
-Full day 
+You gasp awake to a new day. The fog overcasts the trees outside your home. 
+What would you like to do? 
++[Talk to housemates] 
+You get out of bed and begin your regular routine. Get dressed, brush your teeth, and set off to the hallway. -> convoStarter
++[Go get supplies for exorcism] 
+You get out of bed and begin your regular routine. Get dressed, brush your teeth, and head out. -> Shopping 
+
+==Shopping== 
 -> END 
+
+==convoStarter== 
+Who would you like to speak to? 
+*{not NotHomeVince}[Vince] -> VinceConversation
++{AmyConversation < 5}[Amy] -> AmyConversation 
++{not NotHomeJohnny}[Johnny] -> JohnnyConversation
++[Darcie] -> DarcieConversation 
+
+==VinceConversation== 
+You walk to the kitchen and see Vince, greeting him. 
+{VinceMad: 
+<- VinceMadConversation
+} 
+{not VinceMad: 
+<- VinceNeutralConvo
+}
+<- additionalQuestions 
+
+
+==additionalQuestions==
+*["Is anyone else home?"] -> elseHome
+*{not sawSomething} ["I saw something last night"] -> sawSomething 
+Vince: Hm? 
+*{sawSomething && VinceMadConversation.makeup} ["Like I said before, I saw something last night"] -> sawSomething
++["I'll catch you later"] -> VinceGoodbye 
+
+== VinceMadConversation==
+Vince: "What do you want from me?" 
+-> confrontVince 
+=confrontVince
+*["Are you still mad about last night?"] 
+Vince: "Yeah I'm mad. But what do you want?" 
+**["I'm sorry."] -> apologize 
+**["Something's going on."] -> dontApologize 
+
+= apologize 
+Vince: "Hm?" 
+*["I shouldn't have thrown you under the bus like that"] -> makeup
+*["I'm sorry for not having your back."] -> makeup
+
+= dontApologize
+Vince: If it's some ghost shit, I don't want to hear it. 
+*["Vince, come on."] -> stormOut 
+*["I'm sorry"] -> apologize
+
+=stormOut 
+Vince: No! Ok? I'm done trying to help you with this phantom- or- whatever bullshit. I'm late for class anyways. 
+You watch him pack up his breakfast and storm out. 
+->convoStarter
+~NotHomeVince = true
+
+=makeup
+~ VinceMad = false 
+Vince: ...ok. Yeah. I'm sorry for going a bit haywire on you. It's just hard keeping this whole medium thing a secret, you know? 
+*["I get it."] 
+Vince: Of course, yeah, it's your secret after all. Apology accepted! 
+**["Thanks!"] 
+{not sawSomething: Vince: So, what's up?} -> additionalQuestions
+{sawSomething: Vince: So, what did you see?} 
+
+==elseHome ==
+{VinceMad: Vince: Yeah. Darcie's sick. Johnny's being an ass. Amy's...somewhere, I dont know.} 
+{not VinceMad: Vince: Yeah! Uhhh Amy is...somewhere I'm not sure where. Darcie is in her room, I think she's sick or something? And Johnny, I don't know. As long as he stays away I don't care where he went.} 
+<- PeopleHome 
+
+
+=PeopleHome 
+*["What's Darcie sick with?"] -> DarcieSickness 
+*(VinceExplinationOfIncident)["Is there something going on with you and Johnny?"] ->JohnnyExplotion 
+<-additionalQuestions
+{VinceMad: 
+<- VinceMadConversation.confrontVince
+}
+
+=DarcieSickness 
+{not VinceMad: Vince: Not sure, looks like the flu or something. She's been sneezing all morning. } 
+{VinceMad: Don't know.} 
+<- PeopleHome 
+
+= JohnnyExplotion
+{not VinceMad: Vince: Yeah, for some reason he got all up in my face and started yelling at me. Saying I was the most annoying and no one likes me here. }
+
+{VinceMad: Vince: Yeah he got mad at me.} 
+
+*["I'm sorry to hear that."] 
+
+{not VinceMad: Vince: It's fine.} 
+{not VinceMad && posessed: Vince: I hope it's a wrathful spirit and he didn't just turn into a jackass overnight.} 
+{not VinceMad: But that's not that important, anything else you want to chat about?} -> additionalQuestions
+{VinceMad: Vince: ...} -> VinceMadConversation.confrontVince
+
+
+==sawSomething==
+{VinceMad: 
+-> VinceMadConversation.dontApologize
+}
+
+*["I think someone's posessed by a wrathful spirit."] -> posessed 
+*["Nevermind."] -> Nevermind 
+
+=Nevermind 
+Vince: Nevermind? C'mon, you know you can tell me anything, right? 
+
+*["I think for everyone's safety it's best if I don't] 
+Vince: ...ominous but alright. -> additionalQuestions
+*["I think someone's posessed by a wrathful spirit."] -> posessed 
+
+==posessed== 
+Vince: POSESSED?! 
+You hush him down 
+Vince: Possessed?! The hell you mean?! 
+**["I'm not sure who it is"] -> VinceHelps 
+**["I'm going to be preforming an exorcism"] 
+Vince: Well make sure you get the right person tonight, or else that ghost is going to get pissed. -> VinceHelps
+**["I think I know who it is"] -> VinceQuestionsWho 
+
+=VinceQuestionsWho
+Vince: Who?! 
+*[You]
+    -> accuse("You")
+*[Johnny] 
+    -> accuse("Johnny") 
+*[Amy] 
+    -> accuse("Amy") 
+*[Darcie] 
+    -> accuse("Darcie") 
+    
+=accuse(name)
+{name == "You": Vince: ...ok so. Let me get this straight. Your plan was to walk up to me...say I'm posessed...and then what? Obviously, I'm not. But if I was, that would've been a real dumb move. Yeah, accuse the angry ghost in a room full of knives, what could possibly be the worst case scenario?}
+
+{name == "Johnny": Vince: Hmmmm... I mean if it's a wrathful spirit then yeah I guess that could explain his outburst this morning. Just make sure not to tell Amy though, you know she always loudmouths everyone's buisness to him.} 
+{name == "Amy": Vince: I highly doubt that, she seems chill as usual.} 
+{name == "Darcie": Vince: Wrathful? Oh yeah, well she always is. It's gonna be hard to tell the difference on if she's posessed by some angry spirit or not, but hey, doesn't look like she's getting up anytime soon. Being sick and all that.} 
+
+-> VinceHelps
+=VinceHelps 
+Vince: If there's anything I can do to help, let me know. 
+*["Will do."] 
+Vince: Anything else you wanna chat about? 
+<- additionalQuestions
+
+
+==VinceNeutralConvo==
+Vince: Oh hey! What's up? 
+<- additionalQuestions
+*["Something's going on"] 
+Vince: Hm? -> sawSomething
+
+==VinceGoodbye==
+{VinceMad: Vince: Ok. Bye.} 
+{not VinceMad: Vince: Catch ya later!} 
+You watch Vince pack the rest of his backpack and head out.
+-> convoStarter
+
+==AmyConversation==
+# CLEAR
+<link rel="stylesheet" type="text/css" href="styleDay.css"/>
+{not WalkAway: You walk down the hall and see Johnny and Amy's room ajar. Knocking on it, Amy opens with a tired smile.}
+{WalkAway: You knock on the door again.}
+{AmyConversation < 2: Amy: Oh hey. What's up?}
+{AmyConversation > 1 && AmyConversation < 3: Amy: Uhhh...can I help you?} 
+{AmyConversation > 3 && AmyConversation < 4: Amy: What?! Why do you keep knocking?!} 
+{AmyConversation > 4 or danger: 
+-> AmyIgnores 
+}
++[Can I walk to you for a bit?] -> talkToAmy
++[Nevermind, sorry for bothering you.] -> WalkAway 
+
+=talkToAmy 
+{talkToAmy < 2: Amy: Sure...come in. Is something wrong?} 
+{talkToAmy < 3: Well, I'm kinda running short on time, but I'm glad to chat a bit more.} 
+{talkToAmy > 3: 
+-> AmyGoodbye
+}
+*{elseHome.JohnnyExplotion} ["Do you know what happened between Johnny and Vince?"] -> AmyExplnationJohnny 
+*{elseHome.DarcieSickness} ["Do you know what Darcie's sick with?"] -> AmyExplinationSickness 
+*{JohnnyConversation} ["What's going on with Johnny?"] -> JohnnyTalkAmy
+*["There's something I need to tell you."] -> tellHer 
+
+=JohnnyTalkAmy 
+Amy: What do you mean? 
+*["He seems to not be doing well."] 
+{AmyExplnationJohnny: Amy: I mean...ok fine we did have a slight disagreement last night but not anything too serious. Why? Is he ok?}
+
+**["No not really"] -> 
+**["He just seems upset"] 
+=AmyExplnationJohnny
+{not JohnnyTalkAmy: Amy: Oh...yeah. I'm not sure why that happened...but he's been in a really bad mood today.}
+{JohnnyTalkAmy: Amy: Yeah...maybe he's just outlashing at everyone? I don't know...doesn't seem very like him.} 
+*["Do you know why?"] 
+Amy: No clue. <-talkToAmy 
+
+*["Maybe it's not him..."] -> tellHer
+
+=AmyExplinationSickness
+Amy: Yeah...seems like a simple cold...nothing too crazy. 
+<- talkToAmy
+
+= tellHer
+Amy: What's going on? 
+*["I'm a spirit medium"] -> medium
+*["Nevermind."] 
+Amy: Oh...ok. -> AmyGoodbye
+
+=medium
+Amy: hahahahaha! 
+*[...]
+Amy: Oh...oh you're serious. 
+**["Yep."] 
+Amy: Well...uhhhh thanks for telling me, I guess. 
+***[You're in danger] -> danger 
+***["Sure."]->talkToAmy
+~ KnowledgeStateAmy = Knows
+
+=danger 
+~ KnowledgeStateJohnny = Knows 
+Amy: What???
+*["Someone's posessed, and I don't know who."] 
+Amy: Ok, you're speaking nonsense. I-I have alot of work to do. 
+**["Please listen to me."]
+Amy: Please get out of my room. 
+***[Leave] 
+-> convoStarter
+
+=AmyGoodbye 
+Amy: Well, I have to study quite a bit, but it was nice chatting. 
+*["Yeah, nice chatting."]->convoStarter
+
+=WalkAway 
+Amy: Oh...ok. 
+She shuts the door. 
+-> convoStarter
+
+=AmyIgnores 
+{AmyIgnores < 2: Amy: Enough! Ok? I'm trying to study.}
+{AmyIgnores < 2: Amy shuts the door.} 
+{AmyIgnores > 1: No answer.} 
+-> convoStarter
+
+==JohnnyConversation==
+You wander around for a while before finding Johnny in the garage. 
+Johnny: "Hello." 
+{AmyConversation.danger: 
+<- MediumTalk
+}
+<- generalQuestions
+
+=generalQuestions
+*["Are you feeling ok?"] -> MediumTalk.fine
+*["What's going on between you and Vince, man?"] -> MediumTalk.VincePissOff
+
+==MediumTalk==
+Johnny: So...you're a medium? 
+*["How did you know?"] 
+Johnny pulls out his phone and shows a text message thread between him and Amy. 
+Johnny: You feeling ok man? Sounds like you had a bit of a freakout. 
+**["A freakout?"] -> freakout
+**["I'm fine"] -> fine 
+
+= freakout 
+Johnny: Yeah a freak out. 
+{VinceMad: 
+<- MentionVinceMad
+} 
+Johnny: Now Amy's all anxious cause you told her she's "in danger". 
+
+*(misunderstanding)["This is a big misunderstanding"] -> passiveProgress 
+*(dontBelieve)["I thought you didn't believe in ghosts."] -> passiveProgress
+
+=MentionVinceMad
+Johnny: First you pissed off Vince with your ghost talk. 
+*(ghostJoke)["No, you made the ghost joke first."] ->agressiveProgress
+*(clapBack){elseHome.JohnnyExplotion}["You're one to talk."] ->agressiveProgress
+
+=passiveProgress
+{misunderstanding: Johnny: I don't think there's any misunderstanding in you getting this whole house rattled up.}
+{dontBelieve: I don't. But I do believe that you messing with people's heads is pissing me off.} 
+
+*(sorry)["I'm sorry."] -> fine
+*["Are you feeling ok?"] -> fine
+
+= agressiveProgress
+{ghostJoke: Johnny: Oh no! Don't you pin this on me when you're out here talking ghost crap you freak.} 
+{clapBack: The hell do you mean by that?!} 
+*["This is very out of character for you."] -> Finalfine
+*{elseHome.JohnnyExplotion}["I know you went off on Vince this morning"] -> VincePissOff
+*["Nevermind."] -> JohnnyConversation.generalQuestions
+
+= VincePissOff
+Johnny: Yeah, cause he was pissing me the hell off. 
+*["You seem very angry."] -> Finalfine
+
+= fine
+{sorry: Johnny: Damn right you should be.}
+{sorry: You try to get closer.}
+Johnny: I'm fine. Leave me alone. 
+*["Ok, I'll leave."] -> convoStarter
+You leave the garage. 
+*["Are you sure?"] -> Finalfine 
+
+=Finalfine 
+Johnny: IM FINE. 
+You watch him punch a nearby wall and begin to cackle. 
+Johnny: You should leave. 
+
+*["Ok."] 
+**[You leave the garage] -> convoStarter
+
+
+==DarcieConversation==
+-> END
+
 
 
