@@ -10,7 +10,7 @@ VAR NotHomeJohnny = false
 
 -> begin
 ==begin==
-Your heart pounds out of your chest, a decision that can make or break your fate in this household. 
+Wah! A change! Your heart pounds out of your chest, a decision that can make or break your fate in this household. 
 *[It all leads down to this.] 
 
 You glare at the red 6 card in front of you, switching your glare between it and your housemate with one card. 
