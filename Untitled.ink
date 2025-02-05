@@ -93,13 +93,11 @@ Johnny: Gah, I know you're new but c'mon. After the first couple weeks you got't
 Vince: You know what, I'm pretty tired I think I'm going to bed. 
 Johnny: Seriously? C'mon! I'm just joking! 
 Vince: Good night guys. 
-*["I'm going to bed too"] 
 Amy: Oh...ok. Good night guys. 
 Johnny begins to pack up the Uno cards. 
 
 **[Go straight to bed] -> goToSleep 
-**[Catch up with Vince] -> VinceChat ->
-- -> goToSleep
+**[Catch up with Vince] -> VinceChat
 
 ==InvestigateLivingRoom==
 # CLEAR
@@ -111,7 +109,7 @@ Johnny begins to pack up the Uno cards.
 = pictureFrame
 You look around the walls and find a blank space where the frame should've been, and see it on the floor. 
 
-Upon lifting it up, you what once was a simple drawing of Amy now displays her jaw unhinged. 
+Upon lifting it up, you notice what once was a simple drawing of Amy now displays her jaw unhinged. 
 
 *[But you don't make a big deal out of it] 
 
@@ -230,15 +228,15 @@ Vince: ...fair point. But hey! Whatever you choose, I got your back, alright?
 = goodNightVince
 Vince: Alright, well I'm pretty tired. Get plenty of rest, goodnight! 
 Vince walks into his room and closes his door. 
--> VinceChat
+-> goToSleep
 
 ==goToSleep==
 # CLEAR
-You go into your room, put on your pjamas, and go to bed. 
+You go into your room, put on your pajamas, and go to bed. 
 
 Your body sinks into the mattress, and you await to feel your mind transfer...
 
-*[Into the land of the souls] -> souls
+*[Enter the land of the souls] -> souls
 
 = souls 
 
@@ -248,32 +246,39 @@ You can't see anything, but you can feel it. Fours souls, other than your own, s
 
 Last you counted, there were at least 10 other souls that hummed in this house...
 
-**[Unable to relinquish themselves from this world.]
+Unable to relinquish themselves from this world.
+**[..]
 
 Some are at peace with their entrapment. 
 Others are saddened. 
-***[But one is wrathful.] 
+
+But one is wrathful.
+***[..] 
 
 You lay in the visionless void, your mind trapped between a limbo of life and death. When suddenly...
 
-****[A violent vibration begins to stir] 
+A violent vibration begins to stir
+****[..] 
 
 It's vile, and the clashing between energies stirs your stomach wrong. A panic begins to rise as you realize...
 
-*****[One has begun to engulf another] 
+One has begun to engulf another
+*****[..] 
 
 You feel a lively soul suddenly become overwhelmed with bitter hatred, until it is no longer itself. You've only seen this one other time in your life...
 
-******[A posession.] 
+A possession.
+******[..] 
 
 You can't tell who's soul has been taken over, but you must act quietly before the spirit realizes you're trying to exorcise it. 
 
-Or else it will harm whoever it is posessing. 
+Or else it will harm whoever it is possessing. 
 
-*******[Or possibly the people around it.] 
+Or possibly the people around it.
+*******[..] 
 
 You must...
-********[Awaken.] -> Daytime 
+********[Wake Up] -> Daytime 
 
 ==Daytime== 
 # CLEAR
@@ -289,27 +294,27 @@ You get out of bed and begin your regular routine. Get dressed, brush your teeth
 # CLEAR
 <link rel="stylesheet" type="text/css" href="styleDay.css"/>
 {Shopping < 2: You head out to get your supplies.}
-{holyWater: holy water in hand... }
-{medicine: medicine in the other...}
-{Shopping > 2: you head to your next location.} 
-*(HolyWater)[Get holy water.] -> holyWater
+{holyWater: Holy water in hand... }
+{medicine: Medicine in the other...}
+{Shopping > 2: You head to your next location.} 
+*(HolyWater)[Get holy water] -> holyWater
 +{DarcieConversation.askForMedicine}(DarcieMedicine)[Get Darcie's Medicine] -> medicine
 +{HolyWater}[Go home] -> convoStarter
 
 =holyWater
 You walk into your local church with an empty waterbottle and sneak to the stoup. 
 Making sure no one is looking, you steal just enough for the exorcise. 
-<- Shopping
+-> Shopping
 
 =medicine 
 {holyWater: You hide the bottle of holy water in your pocket and walk to your local supermarket} 
 You search for a while but eventually find Darcie's medicine. 
-<- Shopping
+-> Shopping
 
 ==convoStarter==
 # CLEAR
 <link rel="stylesheet" type="text/css" href="styleDay.css"/>
-{Shopping: You finally return to the house as the sun begins to set.}
+{Shopping: You finally return to the house as the sun begins to set. Looking around the house, you don't see Vince or Johnny anywhere.}
 Who would you like to speak to? 
 *{VinceConversation or AmyConversation or JohnnyConversation or DarcieConversation}[Go Shopping] -> Shopping
 *{not NotHomeVince && not Shopping}[Vince] -> VinceConversation
@@ -324,10 +329,10 @@ Who would you like to speak to?
 # CLEAR 
 <link rel="stylesheet" type="text/css" href="styleDay.css"/>
 You walk to the kitchen and see Vince, greeting him. 
-{VinceMad: 
+{VinceMad == true: 
 <- VinceMadConversation
 } 
-{not VinceMad: 
+{VinceMad == false: 
 <- VinceNeutralConvo
 }
 <- additionalQuestions 
@@ -404,7 +409,7 @@ Vince: Of course, yeah, it's your secret after all. Apology accepted!
 *["I'm sorry to hear that."] 
 
 {not VinceMad: Vince: It's fine.} 
-{not VinceMad && posessed: Vince: I hope it's a wrathful spirit and he didn't just turn into a jackass overnight.} 
+{not VinceMad && possessed: Vince: I hope it's a wrathful spirit and he didn't just turn into a jackass overnight.} 
 {not VinceMad: But that's not that important, anything else you want to chat about?} -> additionalQuestions
 {VinceMad: Vince: ...} -> VinceMadConversation.confrontVince
 
@@ -415,7 +420,7 @@ Vince: Of course, yeah, it's your secret after all. Apology accepted!
 -> VinceMadConversation.dontApologize
 }
 
-*["I think someone's posessed by a wrathful spirit."] -> posessed 
+*["I think someone's possessed by a wrathful spirit."] -> possessed 
 *["Nevermind."] -> Nevermind 
 
 =Nevermind 
@@ -423,11 +428,11 @@ Vince: Nevermind? C'mon, you know you can tell me anything, right?
 
 *["I think for everyone's safety it's best if I don't] 
 Vince: ...ominous but alright. -> additionalQuestions
-*["I think someone's posessed by a wrathful spirit."] -> posessed 
+*["I think someone's possessed by a wrathful spirit."] -> possessed 
 
-==posessed== 
+==possessed== 
 <link rel="stylesheet" type="text/css" href="styleDay.css"/>
-Vince: POSESSED?! 
+Vince: POSSESSED?! 
 You hush him down 
 Vince: Possessed?! The hell you mean?! 
 **["I'm not sure who it is"] -> VinceHelps 
@@ -447,11 +452,11 @@ Vince: Who?!
     -> accuse("Darcie") 
     
 =accuse(name)
-{name == "You": Vince: ...ok so. Let me get this straight. Your plan was to walk up to me...say I'm posessed...and then what? Obviously, I'm not. But if I was, that would've been a real dumb move. Yeah, accuse the angry ghost in a room full of knives, what could possibly be the worst case scenario?}
+{name == "You": Vince: ...ok so. Let me get this straight. Your plan was to walk up to me...say I'm possessed...and then what? Obviously, I'm not. But if I was, that would've been a real dumb move. Yeah, accuse the angry ghost in a room full of knives, what could possibly be the worst case scenario?}
 
 {name == "Johnny": Vince: Hmmmm... I mean if it's a wrathful spirit then yeah I guess that could explain his outburst this morning. Just make sure not to tell Amy though, you know she always loudmouths everyone's buisness to him.} 
 {name == "Amy": Vince: I highly doubt that, she seems chill as usual.} 
-{name == "Darcie": Vince: Wrathful? Oh yeah, well she always is. It's gonna be hard to tell the difference on if she's posessed by some angry spirit or not, but hey, doesn't look like she's getting up anytime soon. Being sick and all that.} 
+{name == "Darcie": Vince: Wrathful? Oh yeah, well she always is. It's gonna be hard to tell the difference on if she's possessed by some angry spirit or not, but hey, doesn't look like she's getting up anytime soon. Being sick and all that.} 
 
 -> VinceHelps
 =VinceHelps 
@@ -465,7 +470,7 @@ Vince: Anything else you wanna chat about?
 # CLEAR 
 <link rel="stylesheet" type="text/css" href="styleDay.css"/>
 Vince: Oh hey! What's up? 
-<- additionalQuestions
+
 *["Something's going on"] 
 Vince: Hm? -> sawSomething
 
@@ -539,7 +544,7 @@ Amy: Well...uhhhh thanks for telling me, I guess.
 =danger 
 ~ KnowledgeStateJohnny = Knows 
 Amy: What???
-*["Someone's posessed, and I don't know who."] 
+*["Someone's possessed, and I don't know who."] 
 Amy: Ok, you're speaking nonsense. I-I have alot of work to do. 
 **["Please listen to me."]
 Amy: Please get out of my room. 
@@ -711,9 +716,9 @@ Darcie: ....what?
 Darcie: I....KNEW IT. THERE WAS ALWAYS SOMETHIN' OFF HERE. 
 **["What?!"] 
 Darcie: Oh come on...the random frames falling. The plates falling. The whispers. How does no one know this place is haunted?! 
-***["So you're not posessed?"] -> DarciePosessed
+***["So you're not possessed?"] -> DarciePossessed
 ***(unknowing)["I'm glad we're on the same page."] 
-Darcie: Yeah. So, why tell this now? -> DarciePosessed
+Darcie: Yeah. So, why tell this now? -> DarciePossessed
 = dodge
 {DarcieMad: TELL ME WHAT?! YA ALREADY CAME INTO MY ROOM SPIT IT OUT.} 
 {not DarcieMad: Ya alright? Ya look like ya seen a ghost.} 
@@ -721,10 +726,10 @@ Darcie: Yeah. So, why tell this now? -> DarciePosessed
 *{DarcieMad} ["I'm a spirit medium"] -> confess 
 *["I said nevermind."] -> enterRoom
 
-= DarciePosessed
+= DarciePossessed
 {unknowing: Darcie: Is something wrong?!} 
-{not unknowing: Darcie: POSESSED?! SOMEONE'S POSESSED?!} 
-*["Yeah, someone's posessed"] -> exclimation
+{not unknowing: Darcie: POSSESSED?! SOMEONE'S POSSESSED?!} 
+*["Yeah, someone's possessed"] -> exclimation
 
 =exclimation
 Darcie: Well DAMN. Then who is?! 
@@ -814,7 +819,7 @@ Darcie: Goddamn it!! Gah, I guess that's fine.
 ==AmyPostShopping==
 <link rel="stylesheet" type="text/css" href="styleDayPostShopping.css"/>
 You knock on her bedroom door.
-{AmyConversation < 5: Despite the obvious movement inside, no one answers. -> convoStarter}
+{AmyConversation > 5: Despite the obvious movement inside, no one answers. -> convoStarter}
 {not AmyConversation: Amy: Hey, what's up?} 
 {AmyConversation.medium: Amy: Oh...hey.} 
 
@@ -839,7 +844,7 @@ Amy: It's fine...
 = shakenUp
 Amy: Well yeah. Between Johnny being all angry and now you telling me this...I don't know. 
 *["I hope tomorrow is better."] -> tomorrow 
-*{MediumTalk && posessed.accuseJohnny}["Please don't tell Johnny."] -> didSheTell 
+*{MediumTalk && possessed.accuseJohnny}["Please don't tell Johnny."] -> didSheTell 
 
 = didSheTell
 {AmyConversation.danger && not tomorrow: Amy: I'm sorry, I already did.} 
@@ -868,7 +873,7 @@ Amy: Bye.
 *{MedicineChat.Sage}[Light Sage] -> lightSage
 *{Shopping.HolyWater}[Check how much holy water you have] 
 There's only so much to exorcise one person. ->FinalShowdown
-*[Find posessed person] -> Selection 
+*[Find possessed person] -> Selection 
 
 = lightSage
 You light the Sage and watch the smoke go into the house vent. 
@@ -923,18 +928,18 @@ You slowly walk into Vince's room to see him awake and on his computer.
 {KnowledgeStateVince == Knows: Vince: Did you find who it was yet?} 
 {KnowledgeStateVince == NoKnows: Vince: Yo, is everything ok?} 
 
-*{KnowledgeStateVince == NoKnows} ["There's a posession happening"] -> posessionHappening
+*{KnowledgeStateVince == NoKnows} ["There's a possession happening"] -> possessionHappening
 *{KnowledgeStateVince == Knows} ["I need your help."] -> help 
-*[Exorsice him] -> VinceReaction
+*[Exorcise him] -> VinceReaction
 
 = VinceReaction 
 You splash the water on him. 
 Vince: Dude what the fuck?! 
-{KnowledgeStateVince == Knows: Vince: I'm not posessed!!} 
+{KnowledgeStateVince == Knows: Vince: I'm not possessed!!} 
 {KnowledgeStateJohnny == NoKnows: Vince: What is happening?!} 
 *["Shit."] -> badEnding1
 
-=posessionHappening
+=possessionHappening
 Vince: What?! Why didn't you tell me before?! 
 *["Doesn't matter now"] 
 Vince: Fuckin- Jeez dude. Ok fine. What can I do? 
@@ -1023,8 +1028,8 @@ Ending 3/7
 
 ==badEnding2==
 Amy: Wha-what is this?! Why did you just dump water on me?! 
-*["You're not posessed?"] 
-Amy: Posessed? Posessed?! What the hell do you mean by- 
+*["You're not possessed?"] 
+Amy: Possessed? Possessed?! What the hell do you mean by- 
 In an instant, a sharp pain rings throughout your back as a two-toned cackle fills the room. You try to turn around...
 **[Only finding a blade preventing you from doing so.] 
 Amy screams in terror as you fall to the floor, briefly meeting the gaze of Johnny's pitch black eyes. He plunges the blade in your back over and over again until the screams silence...
