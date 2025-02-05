@@ -247,38 +247,38 @@ You can't see anything, but you can feel it. Fours souls, other than your own, s
 Last you counted, there were at least 10 other souls that hummed in this house...
 
 Unable to relinquish themselves from this world.
-**[..]
+**[...]
 
 Some are at peace with their entrapment. 
 Others are saddened. 
 
 But one is wrathful.
-***[..] 
+***[...] 
 
 You lay in the visionless void, your mind trapped between a limbo of life and death. When suddenly...
 
 A violent vibration begins to stir
-****[..] 
+****[...] 
 
 It's vile, and the clashing between energies stirs your stomach wrong. A panic begins to rise as you realize...
 
 One has begun to engulf another
-*****[..] 
+*****[...] 
 
 You feel a lively soul suddenly become overwhelmed with bitter hatred, until it is no longer itself. You've only seen this one other time in your life...
 
 A possession.
-******[..] 
+******[...] 
 
 You can't tell who's soul has been taken over, but you must act quietly before the spirit realizes you're trying to exorcise it. 
 
 Or else it will harm whoever it is possessing. 
 
 Or possibly the people around it.
-*******[..] 
+*******[...] 
 
 You must...
-********[Wake Up] -> Daytime 
+********[Wake up] -> Daytime 
 
 ==Daytime== 
 # CLEAR
@@ -672,7 +672,7 @@ Darcie: oh C'MON. -> DarcieConversation
 <- ExplosionConvo
 }
 *["I need to tell you something."] -> tellDarcie 
-*["I think I'm going to head out."] -> leaveDarcie
+*{not DarciePostShopping}["I think I'm going to head out."] -> leaveDarcie
 
 = ExplosionConvo 
 Darcie: Well since you're here, did those two jackasses stop fighting? 
@@ -822,6 +822,7 @@ You knock on her bedroom door.
 {AmyConversation > 5: Despite the obvious movement inside, no one answers. -> convoStarter}
 {not AmyConversation: Amy: Hey, what's up?} 
 {AmyConversation.medium: Amy: Oh...hey.} 
+->AmyPostShoppingConvos
 
 =AmyPostShoppingConvos
 
