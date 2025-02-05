@@ -93,6 +93,7 @@ Johnny: Gah, I know you're new but c'mon. After the first couple weeks you got't
 Vince: You know what, I'm pretty tired I think I'm going to bed. 
 Johnny: Seriously? C'mon! I'm just joking! 
 Vince: Good night guys. 
+*["I'm going to bed too"] 
 Amy: Oh...ok. Good night guys. 
 Johnny begins to pack up the Uno cards. 
 
@@ -247,39 +248,32 @@ You can't see anything, but you can feel it. Fours souls, other than your own, s
 
 Last you counted, there were at least 10 other souls that hummed in this house...
 
-Unable to relinquish themselves from this world.
-**[..]
+**[Unable to relinquish themselves from this world.]
 
 Some are at peace with their entrapment. 
 Others are saddened. 
-
-But one is wrathful.
-***[..] 
+***[But one is wrathful.] 
 
 You lay in the visionless void, your mind trapped between a limbo of life and death. When suddenly...
 
-A violent vibration begins to stir
-****[..] 
+****[A violent vibration begins to stir] 
 
 It's vile, and the clashing between energies stirs your stomach wrong. A panic begins to rise as you realize...
 
-One has begun to engulf another
-*****[..] 
+*****[One has begun to engulf another] 
 
 You feel a lively soul suddenly become overwhelmed with bitter hatred, until it is no longer itself. You've only seen this one other time in your life...
 
-A possession.
-******[..] 
+******[A posession.] 
 
 You can't tell who's soul has been taken over, but you must act quietly before the spirit realizes you're trying to exorcise it. 
 
-Or else it will harm whoever it is possessing. 
+Or else it will harm whoever it is posessing. 
 
-Or possibly the people around it.
-*******[..] 
+*******[Or possibly the people around it.] 
 
 You must...
-********[Wake Up.] -> Daytime 
+********[Awaken.] -> Daytime 
 
 ==Daytime== 
 # CLEAR
@@ -730,13 +724,13 @@ Darcie: Yeah. So, why tell this now? -> DarciePosessed
 = DarciePosessed
 {unknowing: Darcie: Is something wrong?!} 
 {not unknowing: Darcie: POSESSED?! SOMEONE'S POSESSED?!} 
-*{not unknowing}["Yes"] 
-*{unknowing}["Yeah, someone's posessed"] 
-{unknowing: Darcie: POSESSED?!} 
+*{unknowing}["Yeah, someone's posessed"] -> exclimation
+
+=exclimation
 Darcie: Well DAMN. Then who is?! 
-**["I'm not sure who it is"] -> DarcieHelp
-**["I'm going to be preforming an exorcism"]  -> DarcieHelp
-**["I think I know who it is"] -> DarcieQuestionsWho 
+*["I'm not sure who it is"] -> DarcieHelp
+*["I'm going to be preforming an exorcism"]  -> DarcieHelp
+*["I think I know who it is"] -> DarcieQuestionsWho 
 
 =DarcieQuestionsWho
 Darcie: Who?!
