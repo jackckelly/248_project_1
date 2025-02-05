@@ -324,12 +324,13 @@ Who would you like to speak to?
 # CLEAR 
 <link rel="stylesheet" type="text/css" href="styleDay.css"/>
 You walk to the kitchen and see Vince, greeting him. 
-{VinceMad: 
+{VinceMad == true: 
 <- VinceMadConversation
 } 
-{not VinceMad: 
+{VinceMad == false: 
 <- VinceNeutralConvo
 }
+
 <- additionalQuestions 
 
 
@@ -465,7 +466,6 @@ Vince: Anything else you wanna chat about?
 # CLEAR 
 <link rel="stylesheet" type="text/css" href="styleDay.css"/>
 Vince: Oh hey! What's up? 
-<- additionalQuestions
 *["Something's going on"] 
 Vince: Hm? -> sawSomething
 
