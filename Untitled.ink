@@ -874,10 +874,10 @@ You light the Sage and watch the smoke go into the house vent.
 {not FinalShowdown.lightSage: With your holy water in hand, you go to...} 
 {FinalShowdown.lightSage && KnowledgeStateJohnny == Knows: Hearing the coughing behind the door, you slowly approach... -> AmbushJohnnyFirst} 
 
-*{FinalShowdown.lightSage or AnJRoom} [Kitchen] -> kitchen
-*[Vince's Room] -> VinceRoom
-*[Amy and Johnny's Room] -> AnJRoom
-*[Darcie's Room] -> DarcieRoom
++{FinalShowdown.lightSage or AnJRoom} [Kitchen] -> kitchen
++[Vince's Room] -> VinceRoom
++[Amy and Johnny's Room] -> AnJRoom
++[Darcie's Room] -> DarcieRoom
 
 = AmbushJohnnyFirst 
 *(TossSage)[Toss Sage into hall] 
@@ -898,7 +898,7 @@ Ending 1/7
 
 ==JohnnyAmbushesYou== 
 You open the door, and don't have a moment to react before Johnny lunges at you. His pitch black eyes meet yours, and it's meer seconds before you feel a warmth in your stomach...
-*[And look down at the knife plunged in] 
+*[And look down at the knife plunged in.] 
 Instict kicks in and you try to splash him, but he grabs your arm with an inhumane amount of strength. 
  His voice has a deep growl, as though two were intertwined within his throat.
  Johnny: Amy...oh what a good friend of yours...always looking out for you. Always telling others how much of a little freak you are. 
@@ -934,7 +934,7 @@ Vince: Fuckin- Jeez dude. Ok fine. What can I do?
 
 = stayHere
 Vince: What?! No, I can help!! 
-**["Please stay here, safe"] 
+**["Please stay here."] 
 Vince: ...alright. Fine. -> Selection
 **["Fine."] -> Selection
 
@@ -961,9 +961,9 @@ Vince: I'll distract him, you ambush him.
 As you make your approach you see Johnny glares at you with ravage eyes. 
 {VinceDistracts: Vince: HEY SPIRIT. OVER HERE!!} 
 {VinceDistracts: It's almost instantanious as Johnny lunges at Vince, plunging the knife into his shoulder} 
-{VinceStaysBack: You watch Vince look from afar, awaiting your next move} 
+{VinceStaysBack: You watch Vince from afar as he, awaits your next move} 
 
-*[Pour Holy Water on Johnny] -> kitchenEnding
+*[Exorcise Johnny] -> kitchenEnding
 
 =kitchenEnding
 {VinceDistracts: You run over and pour the water on Johnny before he can get another jab on Vince} 
@@ -990,12 +990,12 @@ As you make your approach you see Johnny glares at you with ravage eyes.
 
 == AnJRoom ==
 You creep into Amy's room, seeing she is in a deep slumber. 
-*[Pour holy water on her] -> badEnding2
+*[Exorcise Amy] -> badEnding2
 *[Look somewhere else] -> Selection 
 Where could Johnny be...?
 == DarcieRoom ==
 As you creep into Darcie's room, you see she is in a deep slumber. 
-*[Pour holy water on her] 
+*[Exorcise Darcie] 
 Darcie: The hell are you doing?! Wha-what is this?! -> badEnding1
 *[Look somewhere else] -> Selection
 Maybe...it's not her. 
@@ -1024,10 +1024,3 @@ and your vision goes black.
 Ending 7/7
 
 -> END
-
-
-
-
-
-
-
