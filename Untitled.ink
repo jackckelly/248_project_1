@@ -654,7 +654,7 @@ Darcie: what do you want?! -> DarcieConversation
 Darcie: oh C'MON. -> DarcieConversation
 
 = enterRoom
-You quietly enter 
+{enterRoom < 2: You quietly enter}
 {not DarcieMad and enterRoom < 2: Darcie: Yeah sure, barge in I suppose.} 
 {DarcieMad and enterRoom < 2: Darcie:First you wake me up in the middle of the night, now you barge into my room.} 
 
@@ -685,7 +685,7 @@ Darcie: Fine. Whatever.
 =sick 
 Darcie: Since this mornin'. 
 *["Does it feel like a normal cold or...?"] -> lashOut
-*["Do you need any medicine?"] -> askForMedicine 
+*{not Shopping && not askForMedicine}["Do you need any medicine?"] -> askForMedicine 
 
 = lashOut
 Darcie: Yes it feels like a normal col- THE HELL ARE YOU ON ABOUT? I'M JUST SICK. 
@@ -724,7 +724,7 @@ Darcie: Yeah. So, why tell this now? -> DarciePosessed
 = DarciePosessed
 {unknowing: Darcie: Is something wrong?!} 
 {not unknowing: Darcie: POSESSED?! SOMEONE'S POSESSED?!} 
-*{unknowing}["Yeah, someone's posessed"] -> exclimation
+*["Yeah, someone's posessed"] -> exclimation
 
 =exclimation
 Darcie: Well DAMN. Then who is?! 
@@ -755,7 +755,7 @@ Darcie: Who?!
 = DarcieHelp
 Darcie: Then the hell are you doin here?! Go out and find it!! If you need any help, let me know. Though...I'm kinda bedridden right now. 
 *["Thanks."] -> leaveDarcie
-*["Do you need anything while I'm out?"] -> askForMedicine
+*{not Shopping && not askForMedicine}["Do you need anything while I'm out?"] -> askForMedicine
 =leaveDarcie
 {DarcieMad and not angryTalk: Darcie: Ok. Bye.} 
 *[You leave the room] -> convoStarter
@@ -766,8 +766,9 @@ Darcie: Then the hell are you doin here?! Go out and find it!! If you need any h
 You walk up and knock on the door. 
 {DarcieConversation.DarcieMad && not DarcieConversation.confess: ...No reply.} 
 {DarcieConversation.confess: Darcie: Come in!} 
+{not DarcieConversation.confess: Darcie: What?!} 
 *{DarcieConversation.DarcieMad && not DarcieConversation.confess} [You walk away] -> convoStarter
-*{DarcieConversation.confess} [Go in] -> DarcieChat
+*{DarcieConversation.confess or not DarcieConversation.confess} [Go in] -> DarcieChat
 
 =DarcieChat 
 {DarcieChat < 2: Darcie: Hey.}
@@ -777,6 +778,11 @@ You walk up and knock on the door.
 {DarcieConversation.askForMedicine: 
 <- MedicineChat
 }
+
+{not DarcieConversation.confess: 
+<- DarcieConversation.enterRoom
+}
+
 *["I think I'm going to go."] 
 Darcie: Alright, take care of yourself. -> convoStarter
 
