@@ -122,8 +122,8 @@ p {
 
 a {
     font-weight: 700;
-    color: #b97c2c;
-    font-family: sans-serif;
+    color: blue;
+    font-family: 'Times New Roman';
     text-decoration: none;
 }
 
@@ -136,7 +136,7 @@ a {
 }
 
 a:hover {
-    color: floralwhite;
+    color: lightblue;
 }
 
 @media screen and (prefers-reduced-motion: no-preference) {

@@ -295,6 +295,7 @@ You get out of bed and begin your regular routine. Get dressed, brush your teeth
 +(HolyWater)[Get holy water.] -> holyWater
 +{DarcieConversation.askForMedicine}(DarcieMedicine)[Get Darcie's Medicine] -> medicine
 +{HolyWater}[Go home] -> convoStarter
+~ WentShopping = true
 
 =holyWater
 You walk into your local church with an empty waterbottle and sneak to the stoup. 
@@ -313,11 +314,12 @@ You search for a while but eventually find Darcie's medicine.
 Who would you like to speak to? 
 *{VinceConversation or AmyConversation or JohnnyConversation or DarcieConversation}[Go Shopping] -> Shopping
 *{not NotHomeVince && not WentShopping}[Vince] -> VinceConversation
-*{AmyConversation < 5 && not WentShopping} [Amy] -> AmyPostShopping
+*{WentShopping} [Amy] -> AmyPostShopping
+*{AmyConversation < 5 && not WentShopping} [Amy] -> AmyConversation
 *{not NotHomeJohnny && not WentShopping}[Johnny] -> JohnnyConversation
 *{not WentShopping}[Darcie] -> DarcieConversation 
 *{WentShopping}[Darcie] -> DarciePostShopping
-+{WentShopping && AmyPostShopping} [Wait to begin exorcism] -> FinalShowdown
++{WentShopping} [Wait to begin exorcism] -> FinalShowdown
 
 ==VinceConversation== 
 # CLEAR 
