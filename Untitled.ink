@@ -7,6 +7,7 @@ VAR VinceMad = false
 VAR WentShopping = false
 VAR NotHomeVince = false 
 VAR NotHomeJohnny = false 
+VAR VinceWithYou = false
 
 -> begin
 ==begin==
@@ -293,7 +294,7 @@ You get out of bed and begin your regular routine. Get dressed, brush your teeth
 {Shopping > 2: you head to your next location.} 
 +(HolyWater)[Get holy water.] -> holyWater
 +{DarcieConversation.askForMedicine}(DarcieMedicine)[Get Darcie's Medicine] -> medicine
-+[Go home] 
++{HolyWater}[Go home] -> convoStarter
 
 =holyWater
 You walk into your local church with an empty waterbottle and sneak to the stoup. 
@@ -310,12 +311,12 @@ You search for a while but eventually find Darcie's medicine.
 <link rel="stylesheet" type="text/css" href="styleDay.css"/>
 {Shopping: You finally return to the house as the sun begins to set.}
 Who would you like to speak to? 
+*{VinceConversation or AmyConversation or JohnnyConversation or DarcieConversation}[Go Shopping] -> Shopping
 *{not NotHomeVince && not WentShopping}[Vince] -> VinceConversation
-+{AmyConversation < 5}[Amy] -> AmyConversation 
 *{AmyConversation < 5 && not WentShopping} [Amy] -> AmyPostShopping
-+{not NotHomeJohnny && not WentShopping}[Johnny] -> JohnnyConversation
-+{not WentShopping}[Darcie] -> DarcieConversation 
-+{WentShopping}[Darcie] -> DarciePostShopping
+*{not NotHomeJohnny && not WentShopping}[Johnny] -> JohnnyConversation
+*{not WentShopping}[Darcie] -> DarcieConversation 
+*{WentShopping}[Darcie] -> DarciePostShopping
 +{WentShopping && AmyPostShopping} [Wait to begin exorcism] -> FinalShowdown
 
 ==VinceConversation== 
@@ -637,6 +638,7 @@ Johnny: You should leave.
 <link rel="stylesheet" type="text/css" href="styleDay.css"/>
 You knock on the door to her bedroom. 
 {DarcieConversation < 2: Darcie: WHAT?! }
+{DarcieConversation < 2: You hear her begin to cough violently before blowing her nose. }
 {InvestigateLivingRoom.DarcieDoor:
 <- CommentAboutLastNight
 }
@@ -853,6 +855,179 @@ Amy: Bye.
 *[You leave her room.] -> convoStarter
 
 ==FinalShowdown== 
+{FinalShowdown < 2: You go back into your room and collect your items. Looking at the cup of holy water, you...}
+*{MedicineChat.Sage}[Light Sage] -> lightSage
+*{Shopping.HolyWater}[Check how much holy water you have] 
+There's only so much to exorcise one person. ->FinalShowdown
+*[Find posessed person] -> Selection 
+
+= lightSage
+You light the Sage and watch the smoke go into the house vent. 
+{KnowledgeStateJohnny == Knows: It only takes a couple of moments to hear a wheezing, agonizing cough outside of your door.} 
+
+{KnowledgeStateJohnny == NoKnows: It only takes a couple of moments to hear a wheezing, agonizing cough in the kitchen.} 
+
+-> FinalShowdown
+
+==Selection== 
+{VinceWithYou: Vince follows closely behind with his phone flashlight} 
+{not FinalShowdown.lightSage: With your holy water in hand, you go to...} 
+{FinalShowdown.lightSage && KnowledgeStateJohnny == Knows: Hearing the coughing behind the door, you slowly approach... -> AmbushJohnnyFirst} 
+
+*{FinalShowdown.lightSage or AnJRoom} [Kitchen] -> kitchen
+*[Vince's Room] -> VinceRoom
+*[Amy and Johnny's Room] -> AnJRoom
+*[Darcie's Room] -> DarcieRoom
+
+= AmbushJohnnyFirst 
+*(TossSage)[Toss Sage into hall] 
+You quickly open the door and briefly see Johnny with pitch black eyes and a frothing mouth. He rapidly lunges at you, but you toss the sage and close the door. The ravage yelling that devolves into coughing, until you hear a knife hit the floor. -> AmbushJohnnyFirst
+*[Splash person with holy water] -> SplashPerson
+
+=SplashPerson
+{TossSage: You open the door and see Johnny on the floor, tears pouring out of his eyes. Without a second thought, you pour the holy water on him.} 
+{not TossSage: You open the door, and in seconds he lunges at you and drives a knife into your shoulder. Pleading in pain, you quickly retaliate and pour the water on him} 
+
+He spazams on the floor, as a double-toned scream echoes throughout the house before his movement stops. With a couple blinks, his eyes return to normal. 
+
+Johnny: What...happened? 
+
+Ending 1/7
+
 -> END
+
+==JohnnyAmbushesYou== 
+You open the door, and don't have a moment to react before Johnny lunges at you. His pitch black eyes meet yours, and it's meer seconds before you feel a warmth in your stomach...
+*[And look down at the knife plunged in] 
+Instict kicks in and you try to splash him, but he grabs your arm with an inhumane amount of strength. 
+ His voice has a deep growl, as though two were intertwined within his throat.
+ Johnny: Amy...oh what a good friend of yours...always looking out for you. Always telling others how much of a little freak you are. 
+ **[You fall to the floor.] 
+ Johnny: The medium dies at the hand of the spirit it once watched. How pitiful. 
+ The wretched spirit cackles within the body of your friend as your vision goes black. 
+ Ending 2/7 
+ -> END 
+
+==VinceRoom==
+You slowly walk into Vince's room to see him awake and on his computer. 
+{VinceMad: Vince: The hell are you doing?!} 
+{KnowledgeStateVince == Knows: Vince: Did you find who it was yet?} 
+{KnowledgeStateVince == NoKnows: Vince: Yo, is everything ok?} 
+
+*{KnowledgeStateVince == NoKnows} ["There's a posession happening"] -> posessionHappening
+*{KnowledgeStateVince == Knows} ["I need your help."] -> help 
+*[Exorsice him] -> VinceReaction
+
+= VinceReaction 
+You splash the water on him. 
+Vince: Dude what the fuck?! 
+{KnowledgeStateVince == Knows: Vince: I'm not posessed!!} 
+{KnowledgeStateJohnny == NoKnows: Vince: What is happening?!} 
+*["Shit."] -> badEnding1
+
+=posessionHappening
+Vince: What?! Why didn't you tell me before?! 
+*["Doesn't matter now"] 
+Vince: Fuckin- Jeez dude. Ok fine. What can I do? 
+**["I need your help."] -> help
+**["Stay here"] -> stayHere 
+
+= stayHere
+Vince: What?! No, I can help!! 
+**["Please stay here, safe"] 
+Vince: ...alright. Fine. -> Selection
+**["Fine."] -> Selection
+
+= help 
+~ VinceWithYou = true 
+Vince: Alright! I'm coming with you! 
+
+You see him put on a hoodie and follow you out. 
+
+->Selection
+
+==kitchen==
+You slowly make your way into the kitchen to see Johnny still coughing, but a knife in hand. 
+*[Silently approach] -> approach
+<- KitchenWVince
+
+
+=KitchenWVince
+Vince: I'll distract him, you ambush him. 
+*(VinceDistracts)["Good idea"] -> approach
+*(VinceStaysBack)["No, stand back and wait in case I'm in trouble."] -> approach 
+
+=approach
+As you make your approach you see Johnny glares at you with ravage eyes. 
+{VinceDistracts: Vince: HEY SPIRIT. OVER HERE!!} 
+{VinceDistracts: It's almost instantanious as Johnny lunges at Vince, plunging the knife into his shoulder} 
+{VinceStaysBack: You watch Vince look from afar, awaiting your next move} 
+
+*[Pour Holy Water on Johnny] -> kitchenEnding
+
+=kitchenEnding
+{VinceDistracts: You run over and pour the water on Johnny before he can get another jab on Vince} 
+{VinceStaysBack or not VinceStaysBack or not VinceDistracts: As you approach, Johnny moves as an inhumane pace and jabs the blade into your stomach.} 
+{VinceStaysBack: You begin to fall to the floor, and just before the cup slips from your hand, Vince grabs it and pours it over Johnny} 
+
+{VinceDistracts && VinceStaysBack: He spazams on the floor, as a double-toned scream echoes throughout the house before his movement stops. With a couple blinks, his eyes return to normal.} 
+
+{not VinceStaysBack or not VinceDistracts: Your possessed friend cackles with a heinous two-toned voice, continuing to plunge the blade over and over until your vision goes dark.} 
+
+{VinceDistracts or VinceStaysBack: Johnny: What...happened?}
+
+{VinceDistracts: Vince: YOU STABBED ME YOU JACKASS.}
+{VinceStaysBack: Vince: YOU STABBED YOUR FRIEND, JACKASS.} 
+
+{VinceDistracts && VinceStaysBack: Johnny: Shit!! We need to call 911!! Now!!}  
+
+{VinceDistracts: Ending 4/7} 
+{VinceStaysBack: Ending 5/7} 
+{not VinceStaysBack or VinceDistracts: Ending 6/7} 
+
+-> END
+
+
+== AnJRoom ==
+You creep into Amy's room, seeing she is in a deep slumber. 
+*[Pour holy water on her] -> badEnding2
+*[Look somewhere else] -> Selection 
+Where could Johnny be...?
+== DarcieRoom ==
+As you creep into Darcie's room, you see she is in a deep slumber. 
+*[Pour holy water on her] 
+Darcie: The hell are you doing?! Wha-what is this?! -> badEnding1
+*[Look somewhere else] -> Selection
+Maybe...it's not her. 
+
+==badEnding1==
+A sudden screech from the other room calls your attention. Sprinting down the hall with an empty cup, a thought crosses your mind...
+What if you exorcised the wrong person? 
+You burst into Amy and Johnny's room...
+*[And gasp at the horrific sight] 
+Johnny's pitch black eyes are a sharp contrast to the bright red blood splattered across his face. You break eye contact with him to meet Amy's cold dead eyes, her chest still spitting blood from the freshly open cavern. The knife in Johnny's hand reflects the moonlight into your eyes. 
+**[You try to react] 
+But with no holy water left, there's nothing you can do. Johnny rapidly rushes towards the window and leaps through. You try to follow, but as you look out he is long gone into the night. 
+
+Ending 3/7
+-> END
+
+==badEnding2==
+Amy: Wha-what is this?! Why did you just dump water on me?! 
+*["You're not posessed?"] 
+Amy: Posessed? Posessed?! What the hell do you mean by- 
+In an instant, a sharp pain rings throughout your back as a two-toned cackle fills the room. You try to turn around...
+**[Only finding a blade preventing you from doing so.] 
+Amy screams in terror as you fall to the floor, briefly meeting the gaze of Johnny's pitch black eyes. He plunges the blade in your back over and over again until the screams silence...
+and your vision goes black. 
+
+Ending 7/7
+
+-> END
+
+
+
+
+
 
 
