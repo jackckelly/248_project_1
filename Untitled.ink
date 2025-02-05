@@ -724,13 +724,13 @@ Darcie: Yeah. So, why tell this now? -> DarciePosessed
 = DarciePosessed
 {unknowing: Darcie: Is something wrong?!} 
 {not unknowing: Darcie: POSESSED?! SOMEONE'S POSESSED?!} 
-*{not unknowing}["Yes"] 
-*{unknowing}["Yeah, someone's posessed"] 
-{unknowing: Darcie: POSESSED?!} 
+*{unknowing}["Yeah, someone's posessed"] -> exclimation
+
+=exclimation
 Darcie: Well DAMN. Then who is?! 
-**["I'm not sure who it is"] -> DarcieHelp
-**["I'm going to be preforming an exorcism"]  -> DarcieHelp
-**["I think I know who it is"] -> DarcieQuestionsWho 
+*["I'm not sure who it is"] -> DarcieHelp
+*["I'm going to be preforming an exorcism"]  -> DarcieHelp
+*["I think I know who it is"] -> DarcieQuestionsWho 
 
 =DarcieQuestionsWho
 Darcie: Who?!
