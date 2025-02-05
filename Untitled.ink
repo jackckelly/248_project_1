@@ -693,7 +693,8 @@ Darcie: Yes it feels like a normal col- THE HELL ARE YOU ON ABOUT? I'M JUST SICK
 =askForMedicine
 Darcie: ... 
 *["..."] 
-Darcie: I mean if you're goin' out I would appreciate some. 
+{not DarcieHelp: Darcie: I mean if you're goin' out I would appreciate some.} 
+{DarcieHelp: Darcie: Some medicine would be great.} 
 **["I'll get some then."]-> enterRoom
 
 =tellDarcie 
@@ -753,6 +754,7 @@ Darcie: Who?!
 = DarcieHelp
 Darcie: Then the hell are you doin here?! Go out and find it!! If you need any help, let me know. Though...I'm kinda bedridden right now. 
 *["Thanks."] -> leaveDarcie
+*["Do you need anything while I'm out?"] -> askForMedicine
 =leaveDarcie
 {DarcieMad and not angryTalk: Darcie: Ok. Bye.} 
 *[You leave the room] -> convoStarter
