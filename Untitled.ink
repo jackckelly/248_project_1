@@ -421,7 +421,7 @@ Vince: Of course, yeah, it's your secret after all. Apology accepted!
 =Nevermind 
 Vince: Nevermind? C'mon, you know you can tell me anything, right? 
 
-*["I think for everyone's safety it's best if I don't] 
+*["I think for everyone's safety it's best if I don't."] 
 Vince: ...ominous but alright. -> additionalQuestions
 *["I think someone's posessed by a wrathful spirit."] -> posessed 
 
@@ -486,8 +486,8 @@ You watch Vince pack the rest of his backpack and head out.
 {AmyConversation > 4 or danger: 
 -> AmyIgnores 
 }
-+[Can I walk to you for a bit?] -> talkToAmy
-+[Nevermind, sorry for bothering you.] -> WalkAway 
++["Can I walk to you for a bit?"] -> talkToAmy
++["Nevermind, sorry for bothering you."] -> WalkAway 
 
 =talkToAmy 
 {AmyPostShopping: Amy: Uh...sure}
@@ -532,7 +532,7 @@ Amy: hahahahaha!
 Amy: Oh...oh you're serious. 
 **["Yep."] 
 Amy: Well...uhhhh thanks for telling me, I guess. 
-***[You're in danger] -> danger 
+***["You're in danger"] -> danger 
 ***["Sure."]->talkToAmy
 ~ KnowledgeStateAmy = Knows
 
@@ -661,7 +661,7 @@ Darcie: oh C'MON. -> DarcieConversation
 {DarcieMad && dodge: Darcie: Then get the hell out!! -> leaveDarcie}
 
 
-*{DarcieMad} ["It wasn't the middle of the night, it was 10pm] -> angryTalk
+*{DarcieMad} ["It wasn't the middle of the night, it was 10pm."] -> angryTalk
 *["How long have you been sick?"] -> sick
 {not DarcieMad or angryTalk:
 <- ExplosionConvo
@@ -707,7 +707,7 @@ Darcie: "Tell me what?"
 ~ KnowledgeStateDarcie = Knows
 {not DarcieMad: You tell her about your powers.} 
 Darcie: ....what? 
-*[You don't believe me?] 
+*["You don't believe me?"] 
 Darcie: I....KNEW IT. THERE WAS ALWAYS SOMETHIN' OFF HERE. 
 **["What?!"] 
 Darcie: Oh come on...the random frames falling. The plates falling. The whispers. How does no one know this place is haunted?! 
@@ -717,7 +717,7 @@ Darcie: Yeah. So, why tell this now? -> DarciePosessed
 = dodge
 {DarcieMad: TELL ME WHAT?! YA ALREADY CAME INTO MY ROOM SPIT IT OUT.} 
 {not DarcieMad: Ya alright? Ya look like ya seen a ghost.} 
-*{not DarcieMad}["Funny you should say that...] -> confess 
+*{not DarcieMad}["Funny you should say that..."] -> confess 
 *{DarcieMad} ["I'm a spirit medium"] -> confess 
 *["I said nevermind."] -> enterRoom
 
@@ -800,7 +800,7 @@ Darcie: Well whatcha waiting for?! Go! -> DarciePostShopping.DarcieChat
 
 = medicineDeal
 Darcie: Depends, did you get my medicine? 
-*[Of course.] 
+*["Of course."] 
 
 Darcie: Thanks. Listen, I always keep a bundle of sage in my bathroom. It's mainly to make it smell nice, but I heard it can ward off bad shit. Go ahead and take it. 
 
