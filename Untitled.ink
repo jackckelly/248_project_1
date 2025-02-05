@@ -814,7 +814,7 @@ Darcie: Goddamn it!! Gah, I guess that's fine.
 ==AmyPostShopping==
 <link rel="stylesheet" type="text/css" href="styleDayPostShopping.css"/>
 You knock on her bedroom door.
-{AmyConversation < 5: Despite the obvious movement inside, no one answers. -> convoStarter}
+{AmyConversation > 5: Despite the obvious movement inside, no one answers. -> convoStarter}
 {not AmyConversation: Amy: Hey, what's up?} 
 {AmyConversation.medium: Amy: Oh...hey.} 
 
